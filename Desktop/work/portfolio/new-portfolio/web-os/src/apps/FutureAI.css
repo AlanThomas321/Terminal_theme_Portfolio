@@ -1,0 +1,67 @@
+.future-ai-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 1rem;
+    color: #f1f1f1;
+}
+
+.future-ai-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #00ffd0;
+}
+
+.repo-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.repo-card:hover {
+    transform: translateY(-5px);
+}
+
+.repo-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.repo-card a {
+    text-decoration: none;
+    color: #66f6ff;
+}
+
+.repo-card .description {
+    font-size: 1rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+}
+
+.repo-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    color: #aaa;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .future-ai-container h2 {
+        font-size: 1.4rem;
+    }
+
+    .repo-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .repo-card .description {
+        font-size: 0.95rem;
+    }
+}

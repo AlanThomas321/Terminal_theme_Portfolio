@@ -1,0 +1,29 @@
+.terminal {
+    height: 100%;
+    background: #111;
+    color: #0f0;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.terminal-output {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.terminal-input {
+    display: flex;
+    align-items: center;
+}
+
+.terminal-input input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #0f0;
+}

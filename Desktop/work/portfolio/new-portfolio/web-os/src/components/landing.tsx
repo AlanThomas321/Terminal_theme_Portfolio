@@ -2,29 +2,39 @@ import { useEffect, useRef, useState } from 'react';
 import './landing.css';
 import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
-//import typingSound from '../assets/typingSound.mp3';
 
 function LandingPage() {
   const textRef = useRef<HTMLDivElement>(null);
- // const audioRef = useRef<HTMLAudioElement>(null);
   const navigate = useNavigate();
-
   const [isTypingFinished, setIsTypingFinished] = useState(false);
   const isTypingFinishedRef = useRef(false);
 
-  // ✅ This listener now lives outside useEffect and always sees the latest ref
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && isTypingFinishedRef.current) {
+    const handleEnter = () => {
+      if (isTypingFinishedRef.current) {
         navigate('/options');
       }
     };
-
+  
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') handleEnter();
+    };
+  
+    const handleTouch = () => handleEnter();
+    const handleClick = () => handleEnter(); // fallback for taps on some browsers
+  
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('touchstart', handleTouch);
+    window.addEventListener('click', handleClick);
+  
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('touchstart', handleTouch);
+      window.removeEventListener('click', handleClick);
+    };
   }, [navigate]);
+  
 
-  // ✅ Separate effect just for typing animation
   useEffect(() => {
     const lines = [
       "Starting the site....",
@@ -42,7 +52,6 @@ function LandingPage() {
 
     lines.forEach((line) => {
       let currentLine = '';
-
       line.split('').forEach((char) => {
         tl.to({}, {
           duration: 0.1,
@@ -52,11 +61,6 @@ function LandingPage() {
             if (textRef.current) {
               textRef.current.innerHTML = fullText.replace(/\n/g, '<br/>');
             }
-
-            //if (audioRef.current) {
-              //const sound = audioRef.current.cloneNode() as HTMLAudioElement;
-              //sound.play().catch(() => {});
-            //}
           }
         });
       });
@@ -73,7 +77,7 @@ function LandingPage() {
       duration: 0,
       onComplete: () => {
         setIsTypingFinished(true);
-        isTypingFinishedRef.current = true; // ✅ update this so listener sees it
+        isTypingFinishedRef.current = true;
       }
     });
   }, []);
@@ -83,7 +87,6 @@ function LandingPage() {
       <div className="name">
         <div ref={textRef} className="typed-text"></div>
       </div>
-     {/* <audio ref={audioRef} src={typingSound} preload="auto" />*/}
     </div>
   );
 }

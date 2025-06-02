@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Web.css";
 import AboutMe from "../apps/AboutMe.tsx";
-//import SvgFrame from "../assets/SvgFrame.tsx";
+import FutureAI from "../apps/apps.tsx";
+import Contact from "../apps/Contact.tsx";
+import Terminal from "../apps/Terminal.tsx";
 
 function WebPage() {
   const [time, setTime] = useState(new Date());
@@ -11,18 +13,27 @@ function WebPage() {
   const [maximizedApps, setMaximizedApps] = useState<string[]>([]);
   const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>({});
   const [sizes, setSizes] = useState<Record<string, { width: number; height: number }>>({});
+  const [showStartMenu, setShowStartMenu] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
     const handleOnline = () => setOnline(true);
     const handleOffline = () => setOnline(false);
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest('.start-menu') &&
+          !(e.target as HTMLElement).closest('.start-button')) {
+        setShowStartMenu(false);
+      }
+    };
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -32,10 +43,12 @@ function WebPage() {
     { name: "Terminal", icon: "💻" },
     { name: "Projects", icon: "🚀" },
     { name: "Contact", icon: "📬" },
-    { name: "Future AI Lab", icon: "🧠" },
   ];
 
   const toggleApp = (appName: string) => {
+    if (appName === "Resume"){
+      window.open("/Alan Thomas_CV.pdf","_blank","noopener,noreferrer");
+    }
     if (openApps.includes(appName)) {
       setOpenApps(openApps.filter(app => app !== appName));
     } else {
@@ -95,14 +108,24 @@ function WebPage() {
     switch (app) {
       case "About Me":
         return <AboutMe />;
+      case "Projects":
+        return <FutureAI />;
+      case "Contact":
+        return <Contact/>;
+      case "Terminal":
+        return <Terminal/>;
       default:
         return <div>{app} content goes here...<button onClick={() => handleResize(app, 400, 300)}>Resize</button></div>;
     }
   };
 
+  const getIconByAppName = (name: string) => {
+    const found = icons.find(icon => icon.name === name);
+    return found?.icon || "📦";
+  };
+  
   return (
     <div className="webos-container">
-     {/*<SvgFrame/> */} 
       <div className="desktop-icons">
         {icons.map((app, idx) => (
           <div className="icon" key={idx} onClick={() => toggleApp(app.name)}>
@@ -140,16 +163,13 @@ function WebPage() {
       ))}
 
       <div className="taskbar">
-        <div className="start-button">Start</div>
+        <div className="start-button" onClick={() => setShowStartMenu(prev => !prev)}>Start</div>
         <div className="open-apps">
           {openApps.map((app, idx) => (
-            <div
-              key={idx}
-              className="taskbar-app"
-              onClick={() => minimizedApps.includes(app) ? restoreApp(app) : minimizeApp(app)}
-            >
-              {app}
-            </div>
+            <div key={idx} className="taskbar-app" onClick={() => minimizedApps.includes(app) ? restoreApp(app) : minimizeApp(app)} title={app}>
+            <span className="taskbar-icon">{getIconByAppName(app)}</span>
+          </div>
+          
           ))}
         </div>
         <div className="taskbar-right">
@@ -161,6 +181,17 @@ function WebPage() {
           </span>
         </div>
       </div>
+
+      {showStartMenu && (
+        <div className="start-menu">
+          <div className="start-menu-item" onClick={() => toggleApp("About Me")}>👨‍💻 About Me</div>
+          <div className="start-menu-item" onClick={() => toggleApp("Projects")}>🚀 Projects</div>
+          <div className="start-menu-item" onClick={() => toggleApp("Terminal")}>💻 Terminal</div>
+          <div className="start-menu-item" onClick={() => toggleApp("Resume")}>📄 Resume</div>
+          <div className="start-menu-divider" />
+          <div className="start-menu-item" onClick={() => window.location.reload()}>🔄 Restart</div>
+        </div>
+      )}
     </div>
   );
 }

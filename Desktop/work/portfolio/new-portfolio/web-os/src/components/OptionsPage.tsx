@@ -11,6 +11,7 @@ function OptionsPage() {
   const line1 = useRef<HTMLDivElement>(null);
   const line2 = useRef<HTMLDivElement>(null);
   const line3 = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [input, setInput] = useState("");
   const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
@@ -37,11 +38,14 @@ function OptionsPage() {
       ease: "power1.inOut",
       onComplete: () => {
         setShowTerminal(true);
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 100);
       },
     });
   }, []);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!showTerminal) return;
 
     if (e.key.length === 1) {
@@ -93,9 +97,7 @@ function OptionsPage() {
   return (
     <div
       className="body"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      onClick={(e) => e.currentTarget.focus()}
+      onClick={() => inputRef.current?.focus()}
     >
       <pre className="heading">
 {String.raw`
@@ -108,11 +110,9 @@ function OptionsPage() {
 | $$  | $$| $$_____ | $$  | $$| $$ \$$$$      
 | $$  | $$| $$     \| $$  | $$| $$  \$$$      
  \$$   \$$ \$$$$$$$$ \$$   \$$ \$$   \$$   
- 
- 
-
 `}
       </pre>
+
       <div className="intro">
         <div ref={line1}></div>
         <div ref={line2}></div>
@@ -128,7 +128,15 @@ function OptionsPage() {
         {showTerminal && (
           <div className="terminal-wrapper">
             <span className="input-label">user@alan:~$</span>&nbsp;
-            <span className="terminal-input">{input}</span>
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="terminal-input-field"
+              autoFocus
+            />
             <span className="cursor">█</span>
           </div>
         )}

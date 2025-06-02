@@ -1,6 +1,13 @@
 {
     "name": "Alan Thomas",
     "title": "Full Stack Web Developer",
-    "description": "I specialize in building responsive, interactive web apps using React, Node.js, and modern UI frameworks.",
-    "skills": ["React", "Node.js", "CSS", "JavaScript", "MongoDB","Python","HTML/CSS"]
-}  
+    "description": "I specialize in building responsive, interactive web apps using React, Node.js, and modern UI frameworks. With 1.5 years of hands-on experience, I have developed scalable solutions and elegant user interfaces. I'm passionate about crafting efficient code and continuously learning new technologies.",
+    "skills": ["React", "Node.js", "CSS", "JavaScript", "MongoDB", "Python", "HTML/CSS"],
+    "experience": "1.5 years as a Web Developer",
+    "certification": "Microsoft Certified in Python Programming",
+    "email": "alanthomas2999@gmail.com",
+    "github": "https://github.com/AlanThomas321",
+    "resume": "/AlanThomas_Resume.pdf",
+    "hobby": "Exploring AI projects and designing minimal UIs"
+  }
+  

@@ -17,8 +17,10 @@ html {
 
 .body {
     display: flex;
-    
-    
+    justify-content: flex-start;
+    /* Align horizontally to left */
+    align-items: flex-start;
+    /* Align vertically to top */
     padding: 2rem;
     width: 100%;
     height: 100vh;
@@ -26,8 +28,6 @@ html {
 }
 
 .name {
-    width: 100%;
-    max-width: 960px;
     color: #00ff00;
     text-shadow:
         0 0 2px #00ff00bd,
@@ -36,8 +36,6 @@ html {
     white-space: pre-wrap;
     line-height: 1.5;
     padding: 1rem;
-    
-    /*🔥font-size: 1.4rem; responsive font size */
     font-size: clamp(1.2rem, 1.4vw, 1.4rem);
 }
 
@@ -46,58 +44,18 @@ html {
     word-break: break-word;
 }
 
-.command-line {
-    display: flex;
-    align-items: center;
-    margin-top: 1rem;
-    font-size: inherit;
-}
-
-.prompt {
-    margin-right: 0.5rem;
-}
-
-.cursor {
-    animation: blink 1s step-start infinite;
-    color: #00ff00;
-}
-
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
-/* Responsive terminal scaling */
 @media screen and (max-width: 768px) {
     .body {
-        font-size: 1rem;
-        padding: 10px;
+        padding: 1rem;
     }
 
-    .intro,
-    .terminal-wrapper,
-    .terminal-output {
+    .name {
         font-size: 1rem;
-    }
-
-    .heading {
-        font-size: 0.8rem;
-        overflow-x: auto;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .body {
+    .name {
         font-size: 0.9rem;
-    }
-
-    .terminal-wrapper,
-    .terminal-output {
-        font-size: 0.9rem;
-        flex-wrap: wrap;
-    }
-
-    .cursor {
-        width: 8px;
     }
 }
